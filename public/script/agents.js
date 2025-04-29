@@ -738,16 +738,29 @@ async function populateAgentAvailabilityDialog(availabilityRules, agentID) {
     .querySelectorAll('input[type="checkbox"]')
     .forEach((checkbox) => {
       checkbox.addEventListener("change", function () {
-        const dayValue = this.value;
+        const day = this.value;
         const startInput = this.parentElement.querySelector(
-          `input[name="start-${dayValue}"]`
+          `input[name="start-${day}"]`
         );
         const endInput = this.parentElement.querySelector(
-          `input[name="end-${dayValue}"]`
+          `input[name="end-${day}"]`
         );
 
-        if (startInput) startInput.disabled = !this.checked;
-        if (endInput) endInput.disabled = !this.checked;
+        if (this.checked) {
+          startInput.disabled = false;
+          endInput.disabled = false;
+          startInput.required = true;
+          endInput.required = true;
+        } else {
+          startInput.disabled = true;
+          endInput.disabled = true;
+          startInput.required = false;
+          endInput.required = false;
+          startInput.value = "";
+          endInput.value = "";
+          startInput.classList.remove("is-invalid");
+          endInput.classList.remove("is-invalid");
+        }
       });
     });
 
@@ -808,44 +821,62 @@ async function populateAgentAvailabilityDialog(availabilityRules, agentID) {
 }
 
 async function saveAvailability(btn) {
-  const form = btn.parentElement;
-  saveBtnHandler(btn, "Saving...", true, "#002655", "white");
+  // reset any previous error state
+  const form = btn.closest("form");
+  form
+    .querySelectorAll("input")
+    .forEach((i) => i.classList.remove("is-invalid"));
 
+  const errors = [];
   const availabilityRules = [];
 
   daysOfWeek.forEach((day) => {
-    const dayCheckbox = document.getElementById(`day-${day.value}`);
-    if (dayCheckbox.checked) {
-      const startTime = form.elements[`start-${day.value}`].value;
-      const endTime = form.elements[`end-${day.value}`].value;
+    const cb = form.querySelector(`#day-${day.value}`);
+    if (!cb) return;
+    const start = form.elements[`start-${day.value}`];
+    const end = form.elements[`end-${day.value}`];
 
-      if (startTime && endTime) {
+    if (cb.checked) {
+      if (!start.value || !end.value) {
+        errors.push(`${day.label}: both start & end are required`);
+        start.classList.toggle("is-invalid", !start.value);
+        end.classList.toggle("is-invalid", !end.value);
+      } else if (start.value >= end.value) {
+        errors.push(`${day.label}: start must be before end`);
+        start.classList.add("is-invalid");
+        end.classList.add("is-invalid");
+      } else {
         availabilityRules.push({
           day_of_week: day.value,
-          start_time: startTime,
-          end_time: endTime,
+          start_time: start.value,
+          end_time: end.value,
         });
       }
     }
   });
 
+  if (errors.length) {
+    alert("Please fix:\n" + errors.join("\n"));
+    return;
+  }
+
+  // everything’s valid – go ahead and save
+  saveBtnHandler(btn, "Saving...", true, "#002655", "white");
   const agentID = document
     .getElementById("availability-popup")
     .getAttribute("agentid");
 
   const res = await fetch(`/api/agent/update-availability/${agentID}`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      availabilityRules,
-    }),
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ availabilityRules }),
   });
 
-  const resData = await res.json();
-  if (res.status >= 200 && res.status < 300) {
+  if (res.ok) {
     saveBtnHandler(btn, "Saved", true, "green", "white");
+  } else {
+    saveBtnHandler(btn, "Error", false);
+    console.error(await res.text());
   }
 }
 

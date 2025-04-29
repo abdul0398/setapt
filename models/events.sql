@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS event (
     duration INT NOT NULL,
     description TEXT,
     status ENUM('active', 'inactive') DEFAULT 'active',
+    slug VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (agent_id) REFERENCES users(id) ON DELETE CASCADE
