@@ -38,8 +38,15 @@ async function createTables() {
 export async function createAdmin() {
   const username = process.env.ADMIN_USERNAME;
   const password = process.env.ADMIN_PASSWORD;
-  console.log(username, password);
 
+  const [existingAdmin] = await __pool.query(
+    "SELECT * FROM users WHERE email = ?",
+    [username]
+  );
+  if (existingAdmin.length > 0) {
+    console.log("#####  Admin Already Exists #####");
+    return;
+  }
   // Use bcrypt to hash password - this will return a string
   const saltRounds = 10;
   const hashedPassword = await bcrypt.hash(password, saltRounds);
