@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Professional Business Email</title>
+    <style>
+      /* Reset default styles */
+      body,
+      p,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      ul,
+      li {
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Base styles */
+      body {
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        color: #2c3338;
+        background-color: #f5f7fa;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* Container styles */
+      .email-wrapper {
+        width: 100%;
+        background-color: #f5f7fa;
+        padding: 40px 0;
+      }
+
+      .email-container {
+        max-width: 640px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+      }
+
+      /* Header styles */
+      .header {
+        background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
+        padding: 32px 40px;
+        text-align: left;
+      }
+
+      .header img.logo {
+        max-height: 40px;
+        width: auto;
+        display: block;
+        margin-bottom: 16px;
+      }
+
+      .header-title {
+        color: #ffffff;
+        font-size: 24px;
+        font-weight: 600;
+        letter-spacing: -0.5px;
+      }
+
+      /* Content styles */
+      .content {
+        padding: 40px;
+        background-color: #ffffff;
+      }
+
+      .greeting {
+        font-size: 20px;
+        font-weight: 500;
+        color: #1f2937;
+        margin-bottom: 24px;
+      }
+
+      .message {
+        font-size: 16px;
+        line-height: 1.7;
+        color: #4b5563;
+        margin-bottom: 32px;
+      }
+
+      .highlight-box {
+        background-color: #f8fafc;
+        border-left: 4px solid #0d47a1;
+        padding: 24px;
+        margin: 32px 0;
+        border-radius: 4px;
+      }
+
+      .button {
+        display: inline-block;
+        padding: 14px 32px;
+        background-color: #0d47a1;
+        color: #ffffff;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: 500;
+        text-align: center;
+        transition: background-color 0.2s ease;
+      }
+
+      .button:hover {
+        background-color: #1565c0;
+      }
+
+      .signature {
+        margin-top: 40px;
+        padding-top: 24px;
+        border-top: 1px solid #e5e7eb;
+      }
+
+      .signature-name {
+        font-weight: 600;
+        color: #1f2937;
+      }
+
+      .signature-title {
+        color: #6b7280;
+        font-size: 14px;
+      }
+
+      /* Footer styles */
+      .footer {
+        background-color: #f8fafc;
+        padding: 32px 40px;
+        text-align: center;
+        border-top: 1px solid #e5e7eb;
+      }
+
+      .social-links {
+        margin-bottom: 24px;
+      }
+
+      .social-link {
+        display: inline-block;
+        margin: 0 12px;
+        color: #4b5563;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .footer-info {
+        font-size: 13px;
+        color: #6b7280;
+        line-height: 1.8;
+      }
+
+      .footer-links {
+        margin-top: 16px;
+      }
+
+      .footer-link {
+        color: #0d47a1;
+        text-decoration: none;
+        font-size: 13px;
+        margin: 0 8px;
+      }
+
+      /* Responsive design */
+      @media screen and (max-width: 640px) {
+        .email-wrapper {
+          padding: 20px 0;
+        }
+
+        .email-container {
+          border-radius: 0;
+        }
+
+        .header,
+        .content,
+        .footer {
+          padding: 24px 20px;
+        }
+
+        .header-title {
+          font-size: 20px;
+        }
+
+        .greeting {
+          font-size: 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-wrapper">
+      <div class="email-container">
+        <div class="header">
+          <!-- <img src="company-logo.png" alt="Company Logo" class="logo" /> -->
+          <h1 class="header-title">Jome Journey</h1>
+        </div>
+
+        <div class="content">
+          <!-- <h2 class="greeting">Dear [Recipient Name],</h2> -->
+
+          <div class="message">
+            <div class="highlight-box">
+              <p>{{lead}}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer">
+          <div class="social-links">
+            <a
+              href="https://www.linkedin.com/company/jome-journey"
+              target="_blank"
+              class="social-link"
+              >LinkedIn</a
+            >
+            <a
+              href="https://www.instagram.com/jome.journey/"
+              target="_blank"
+              class="social-link"
+              >Instagram</a
+            >
+            <a
+              href="https://jomejourney.com/"
+              target="_blank"
+              class="social-link"
+              >Website</a
+            >
+          </div>
+
+          <div class="footer-info">
+            <p>© 2024 Jome Journey. All rights reserved.</p>
+            <p>Jome Journey</p>
+            <p>
+              <a href="mailto:mail.jomejourney.com" class="footer-link"
+                >mail.jomejourney.com</a
+              >
+              <span class="footer-link">|</span>
+              <a href="#" class="footer-link">Unsubscribe</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

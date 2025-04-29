@@ -1,0 +1,65 @@
+<div
+  class="event-add-popup close_popup"
+  style="text-align: center; padding: 20px"
+>
+  <span
+    onclick="closeAllPopups()"
+    id="close_popup_btn"
+    style="position: absolute; right: 20px; top: 20px"
+  >
+    <i class="fa-solid fa-x"></i>
+  </span>
+
+  <h5 class="text-center mb-4" id="popup-title">Add Event</h5>
+
+  <input type="hidden" id="eventId" />
+
+  <div class="form-group mb-3">
+    <input
+      type="text"
+      class="form-control border p-1 mt-1 border-1"
+      id="eventTitle"
+      placeholder="Enter Event Name"
+      required
+    />
+  </div>
+
+  <div class="form-group mb-3">
+    <textarea
+      class="form-control border p-1 border-1"
+      id="eventDescription"
+      placeholder="Enter Event Description (optional)"
+      rows="3"
+    ></textarea>
+  </div>
+
+  <div class="form-group mb-3">
+    <label class="d-block mb-1">Duration (minutes):</label>
+    <input
+      type="number"
+      class="form-control border p-1 border-1"
+      id="eventDuration"
+      placeholder="Enter Duration (e.g., 30)"
+      required
+      min="5"
+    />
+  </div>
+
+  <div class="form-group mb-3">
+    <label class="d-block mb-1">Status:</label>
+    <select class="form-control border p-1 border-1" id="eventStatus">
+      <option value="active">Active</option>
+      <option value="inactive">Inactive</option>
+    </select>
+  </div>
+
+  <div class="mt-4">
+    <button
+      onclick="submitEvent()"
+      style="background-color: #002655; color: white"
+      class="btn btn-xl w-60"
+    >
+      Save Event
+    </button>
+  </div>
+</div>

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Jome Journey - Round Robin Leads</title>
+
+    <!-- Fonts and icons -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700"
+    />
+
+    <!-- Nucleo Icons -->
+    <link href="/assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+
+    <!-- Font Awesome Icons -->
+    <script
+      src="https://kit.fontawesome.com/658a2960da.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Material Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Round"
+      rel="stylesheet"
+    />
+
+    <!-- Material Dashboard CSS -->
+    <link
+      id="pagestyle"
+      href="/assets/css/material-dashboard.css?v=3.1.0"
+      rel="stylesheet"
+    />
+
+    <!-- Daterangepicker (optional if needed) -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/moment@2/min/moment.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/daterangepicker@3/daterangepicker.min.js"
+    ></script>
+
+    <!-- Custom CSS (Optional) -->
+    <link rel="stylesheet" href="/css/customselect.css" />
+    <link rel="stylesheet" href="/css/loading.css" />
+    <link rel="stylesheet" href="/css/leads.css" />
+
+    <style>
+      /* Simple overlay loader example */
+      .overlay {
+        position: fixed;
+        display: none; /* hidden by default */
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-color: rgba(255, 255, 255, 0.7);
+        z-index: 9999;
+      }
+      .overlay.active {
+        display: block;
+      }
+      .loader {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        /* Example loading spinner */
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid #3498db;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+        transform: translate(-50%, -50%);
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg) translate(-50%, -50%);
+        }
+        100% {
+          transform: rotate(360deg) translate(-50%, -50%);
+        }
+      }
+
+      /* Basic table styling (Bootstrap-like) */
+      .table {
+        width: 100%;
+        margin-bottom: 1rem;
+        background-color: transparent;
+        border-collapse: collapse;
+      }
+      .table th,
+      .table td {
+        padding: 0.75rem;
+        vertical-align: top;
+        border-top: 1px solid #dee2e6;
+      }
+      .table thead th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #dee2e6;
+      }
+      .table tbody + tbody {
+        border-top: 2px solid #dee2e6;
+      }
+
+      /* Hide the sub-accounts dropdown by default (if needed) */
+      /* #subAccountSelect { display: none; } */
+    </style>
+  </head>
+
+  <body class="g-sidenav-show bg-gray-200">
+    <!-- Include sidebar -->
+    <%- include('partials/sidebar') %>
+
+    <main
+      class="main-content position-relative max-height-vh-100 h-100 border-radius-lg"
+    >
+      <!-- Include navbar -->
+      <%- include('partials/navbar') %>
+      <!-- Include navbar -->
+
+      <!-- Overlay loader -->
+      <div class="overlay">
+        <div class="loader"></div>
+      </div>
+
+      <div class="container-fluid py-4">
+        <!-- Button container: Master vs. Round Robin -->
+        <div class="btn-container text-center mb-3">
+          <!-- Master Leads -->
+          <button
+            data="master-leads"
+            class="btn btn-primary border border-1 shadow-none bg-gray-200 text-black-50"
+          >
+            Master Leads
+          </button>
+          <!-- Round Robin Leads -->
+          <button
+            data="round-robin-leads"
+            class="btn btn-primary border border-1 shadow-none bg-dark text-white"
+          >
+            Round Robin Leads (active)
+          </button>
+        </div>
+
+        <!-- Sub Accounts Selection -->
+        <div class="text-center">
+          <label for="subAccountSelect" class="me-2">Select Sub Account:</label>
+          <select
+            id="subAccountSelect"
+            class="form-select w-auto d-inline-block my-2 border border-2 p-2"
+            onchange="handleSubAccountChange(this.value)"
+          >
+            <option value="0" selected disabled>Select Sub Account</option>
+            <!-- Options will be populated by JS -->
+          </select>
+        </div>
+
+        <!-- Round Robin Leads Table -->
+        <div class="card mt-4">
+          <div class="card-header pb-0">
+            <h6>Round Robin Leads</h6>
+          </div>
+          <div class="table-responsive">
+            <table id="leadsTable" class="table align-items-center mb-0">
+              <thead>
+                <tr>
+                  <th
+                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                  >
+                    ID
+                  </th>
+                  <th
+                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                  >
+                    Name
+                  </th>
+                  <th
+                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                  >
+                    Email
+                  </th>
+                  <th
+                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                  >
+                    Phone
+                  </th>
+                  <th
+                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                  >
+                    Status
+                  </th>
+                  <th
+                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                  >
+                    Admin Status
+                  </th>
+                  <th
+                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                  >
+                    Date
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="leadsTableBody">
+                <!-- Dynamically filled by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Core JS Files -->
+    <script src="/assets/js/core/popper.min.js"></script>
+    <script src="/assets/js/core/bootstrap.min.js"></script>
+    <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script src="/assets/js/plugins/chartjs.min.js"></script>
+    <script src="/assets/js/material-dashboard.min.js?v=3.1.0"></script>
+
+    <!-- Script to handle sub account loading, leads fetching, etc. -->
+    <script>
+      // =============================
+      // 1) Button navigation
+      // =============================
+      const btns = document.querySelectorAll(".btn-container button");
+      btns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const btnText = btn.getAttribute("data");
+          if (btnText === "master-leads") {
+            window.location.href = "/all-leads/master-leads";
+          } else if (btnText === "round-robin-leads") {
+            // Already here - do nothing or reload
+            window.location.href = "/leads/round-robin";
+          }
+        });
+      });
+
+      // =============================
+      // 2) Overlay loader
+      // =============================
+      function showOverlay() {
+        document.querySelector(".overlay").classList.add("active");
+      }
+      function hideOverlay() {
+        document.querySelector(".overlay").classList.remove("active");
+      }
+
+      // =============================
+      // 3) Load sub accounts on page load
+      // =============================
+      document.addEventListener("DOMContentLoaded", () => {
+        loadSubAccounts();
+      });
+
+      async function loadSubAccounts() {
+        showOverlay();
+        try {
+          const response = await fetch("/api/round-robin/subaccounts");
+          if (!response.ok) {
+            throw new Error("Error fetching subaccounts");
+          }
+          const subAccountsData = await response.json();
+
+          const subAccountSelect = document.getElementById("subAccountSelect");
+          subAccountSelect.innerHTML =
+            '<option value="0" disabled selected>Select Sub Account</option>';
+
+          // Populate the dropdown
+          subAccountsData.forEach((sub) => {
+            const opt = document.createElement("option");
+            opt.value = sub.id;
+            opt.textContent = sub.sub_account_name;
+            subAccountSelect.appendChild(opt);
+          });
+        } catch (err) {
+          console.error(err);
+          alert("Failed to load sub accounts. Check console for details.");
+        } finally {
+          hideOverlay();
+        }
+      }
+
+      // =============================
+      // 4) Handle Sub Account selection
+      // =============================
+      async function handleSubAccountChange(subAccountId) {
+        if (!subAccountId || subAccountId === "0") return;
+        await loadLeadsBySubAccount(subAccountId);
+      }
+
+      // =============================
+      // 5) Load Leads for a chosen sub account
+      // =============================
+      async function loadLeadsBySubAccount(subAccountId) {
+        showOverlay();
+        try {
+          const response = await fetch(
+            `/api/round-robin/leads/${subAccountId}`
+          );
+          if (!response.ok) {
+            throw new Error(
+              "Error fetching leads for sub account " + subAccountId
+            );
+          }
+          const leads = await response.json();
+
+          // Clear old rows
+          const tableBody = document.getElementById("leadsTableBody");
+          tableBody.innerHTML = "";
+
+          // Populate rows
+          leads.forEach((lead) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+              <td>${lead.id || ""}</td>
+              <td>${lead.name || ""}</td>
+              <td>${lead.email || ""}</td>
+              <td>${lead.mobile_number || ""}</td>
+              <td>${lead.status || ""}</td>
+              <td>${lead.admin_status || ""}</td>
+              <td>${new Date(lead.created_at).toLocaleString() || ""}</td>
+            `;
+            tableBody.appendChild(row);
+          });
+        } catch (error) {
+          console.error(error);
+          // Display a simple error row
+          document.getElementById("leadsTableBody").innerHTML = `
+            <tr>
+              <td colspan="5">Failed to load leads. Please try again.</td>
+            </tr>
+          `;
+        } finally {
+          hideOverlay();
+        }
+      }
+    </script>
+  </body>
+</html>

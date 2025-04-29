@@ -1,0 +1,35 @@
+<dialog
+  id="availability-popup"
+  class="w-50 p-5 border border-2 position-relative rounded-5 rounded"
+>
+  <div class="d-flex flex-column-reverse h-100 w-100 flex-lg-row">
+    <form id="availability-form" class="w-100">
+      <h5 class="mb-4 text-center">Set Your Weekly Availability</h5>
+
+      <div id="availability-days" class="d-flex flex-column gap-3 mb-4">
+        <!-- Days will be injected here by JavaScript -->
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <button type="submit" onclick="saveAvailability(this)" class="btn w-50">
+          Save Availability
+        </button>
+        <button
+          type="button"
+          onclick="connectGoogleCalendar(this)"
+          class="btn w-50 ms-2"
+        >
+          <i class="fab fa-google me-2"></i>Connect Google Calendar
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <span
+    class="cross-hover position-absolute end-0 top-0 icon-link-hover text-4xl d-flex justify-content-center align-content-center"
+    onclick="closeDialog(this)"
+    style="height: 50px; width: 50px"
+  >
+    &times;
+  </span>
+</dialog>

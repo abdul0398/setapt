@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.0"
+   width="600"
+   height="400"
+   id="Flag of Singapore">
+  <rect
+     width="600"
+     height="200"
+     x="0"
+     y="0"
+     style="fill:#ce1126"
+     id="red stripe" />
+  <rect
+     width="600"
+     height="200"
+     x="0"
+     y="200"
+     style="fill:#ffffff"
+     id="white stripe" />
+  <circle
+     cx="122"
+     cy="100"
+     r="73.6"
+     style="fill:#ffffff"
+     id="crescent outside" />
+  <circle
+     cx="168"
+     cy="100"
+     r="80.5"
+     style="fill:#ce1126"
+     id="crescent inside" />
+  <path
+     d="M 166.7,40 l -4,12 l -12.7,0 l 10,7.7 l -4,12 l 10.7,-7.3 l 10.7,7.3 l -4,-12 l 10,-7.7 l -12.7,0 l -4,-12 z "
+     style="fill:#ffffff"
+     id="star top" />
+  <use
+     transform="translate(40,30)"
+     x="0"
+     y="0"
+     width="300"
+     height="200"
+     xlink:href="#star top"
+     id="star right" />
+  <use
+     transform="translate(-40,30)"
+     x="0"
+     y="0"
+     width="300"
+     height="200"
+     xlink:href="#star top"
+     id="star left" />
+  <use
+     transform="translate(25,76.7)"
+     x="0"
+     y="0"
+     width="300"
+     height="200"
+     xlink:href="#star top"
+     id="star lower-right" />
+  <use
+     transform="translate(-25,76.7)"
+     x="0"
+     y="0"
+     width="300"
+     height="200"
+     xlink:href="#star top"
+     id="star lower-left" />
+  <rect
+     width="600"
+     height="400"
+     fill="none"
+     stroke-width="10"
+     stroke="black"
+     id="border" />
+</svg>

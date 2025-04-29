@@ -1,0 +1,2076 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="76x76"
+      href="/assets/img/apple-icon.png"
+    />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <title>Jome Journey</title>
+    <!--     Fonts and icons     -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700"
+    />
+    <!-- Nucleo Icons -->
+    <link href="/assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/customselect.css" />
+    <!-- Font Awesome Icons -->
+    <script
+      src="https://kit.fontawesome.com/658a2960da.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Material Icons -->
+
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Round"
+      rel="stylesheet"
+    />
+
+    <!-- CSS Files -->
+    <link
+      id="pagestyle"
+      href="/assets/css/material-dashboard.css?v=3.1.0"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"
+    ></script>
+  </head>
+  <style>
+    table {
+      color: black;
+    }
+  </style>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+    .beforeCollapse {
+      margin-right: 30px;
+    }
+
+    .collapsible-column {
+      white-space: nowrap;
+      position: relative;
+    }
+
+    .collapsible-btn {
+      cursor: pointer;
+      position: absolute;
+      top: -6px;
+      right: 5px;
+    }
+
+    .content {
+      display: table-cell;
+    }
+
+    .hidden {
+      display: none;
+    }
+    .vertical-header {
+      writing-mode: vertical-lr;
+      transform: rotate(270 deg);
+      white-space: nowrap;
+      overflow: visible;
+      margin-top: 20px;
+    }
+
+    .afterCollapsible {
+      width: 10px;
+    }
+    .selected_client {
+      background-color: #56575b;
+      color: white;
+    }
+    .unselected_client {
+      background-color: white;
+      color: black;
+    }
+    .clients_div li {
+      width: 100%;
+      list-style: none;
+      height: 50px;
+      border-radius: 6px;
+      display: flex;
+      justify-content: start;
+      padding-left: 10px;
+      align-items: center;
+      margin-top: 15px;
+      font-weight: 400;
+    }
+    li:hover {
+      cursor: pointer;
+    }
+    .forms_div {
+      border-radius: 6px;
+      height: 60px;
+      background-color: #f1f2f5;
+    }
+    .clients_div {
+      border-radius: 10px;
+      background: #f1f2f5;
+      box-shadow: 0px 4px 3px -1px rgba(0, 0, 0, 0.25);
+    }
+    @media (max-width: 800px) {
+      .wrapper_div {
+        flex-wrap: wrap;
+        width: 100%;
+      }
+      .clients_div {
+        width: 100% !important;
+        margin: auto;
+      }
+    }
+    .table-container {
+      height: 95%;
+      overflow: auto;
+      font-size: 12px;
+    }
+    /* td{
+            padding: 2px !important;
+        } */
+    .center_span {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .select_container {
+      filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <body class="g-sidenav-show bg-gray-200">
+    <!-- include sidebar     -->
+    <%- include('./partials/sidebar') %>
+    <main
+      class="main-content position-relative max-height-vh-100 h-100 border-radius-lg"
+    >
+      <!-- include Navbar -->
+      <%- include('./partials/navbar') %>
+      <link rel="stylesheet" href="/css/loading.css" />
+      <div class="overlay">
+        <div class="loader"></div>
+      </div>
+      <link rel="stylesheet" href="css/leads.css" />
+      <div class="filter-container">
+        <div
+          class="select_container w-100 w-lg-20 w-md-20"
+          style="
+            border-radius: 7px;
+            display: inline-block;
+            background-color: white;
+            padding: 1px 10px;
+          "
+        >
+          <span><i class="fa-solid fa-list" style="color: #000000"></i></span>
+          <select id="form-filter" class="filter-input">
+            <option value selected disabled>Forms</option>
+          </select>
+        </div>
+        <div
+          class="select_container w-100 w-lg-15 w-md-20"
+          style="
+            border-radius: 7px;
+            display: inline-block;
+            background-color: white;
+            padding: 1px 10px;
+          "
+        >
+          <span><i class="fa-solid fa-list" style="color: #000000"></i></span>
+          <select id="junk-filter" class="filter-input">
+            <option value="all">All</option>
+            <option value="junk">Junk</option>
+            <option selected default value="clear">Clear</option>
+          </select>
+        </div>
+        <div
+          class="select_container w-100 w-lg-15 w-md-20"
+          style="
+            border-radius: 7px;
+            display: inline-block;
+            background-color: white;
+            padding: 1px 10px;
+          "
+        >
+          <span><i class="fa-solid fa-list" style="color: #000000"></i></span>
+          <select id="read-filter" class="filter-input">
+            <option value="all">All</option>
+            <option selected default value="0">Not Read</option>
+            <option value="1">Read</option>
+          </select>
+        </div>
+        <div class="download-container">
+          <input
+            class="download_input"
+            type="text"
+            name="daterange"
+            value="Date"
+          />
+        </div>
+        <div class="search_input mt-2 d-inline-block">
+          <input
+            class="input_search"
+            style="
+              font-size: 14px;
+              padding: 13px 26px;
+              filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+              border-radius: 5px;
+              background-color: #ffffff;
+              border: none;
+              margin-top: 3px;
+            "
+            type="text"
+            placeholder="Search.."
+          />
+        </div>
+        <div class="d-inline-block mt-2">
+          <div class="d-flex">
+            <Button
+              class="btn btn-primary"
+              onclick="openDownloadModal()"
+              style="background-color: #002655; box-shadow: none"
+              >Action</Button
+            >
+          </div>
+        </div>
+        <div class="d-inline-block">
+          <button
+            class="btn btn-primary"
+            style="background-color: #002655; box-shadow: none"
+            id="importButton"
+          >
+            Import CSV
+          </button>
+        </div>
+        <div class="d-inline-block">
+          <button
+            class="btn btn-primary"
+            style="background-color: #002655; box-shadow: none"
+            id="sendLeadButton"
+          >
+            Send Custom Lead
+          </button>
+        </div>
+      </div>
+      <div class="d-flex wrapper_div" style="height: 80vh">
+        <div
+          class="p-3 ms-2 text-center clients_div height-400 border border-2 overflow-hidden"
+        >
+          <div
+            class="d-flex w-100 border border-0 rounded-2 p-2"
+            style="
+              background-color: white;
+              box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.25);
+            "
+          >
+            <input
+              id="search_client"
+              class="w-100 border border-0 rounded-2 p-2"
+              placeholder="Search Client"
+              type="text"
+            />
+            <span class="center_span"
+              ><i class="fa-solid fa-magnifying-glass fa-xl"></i
+            ></span>
+          </div>
+          <div
+            class="clientsname_div overflow-y-auto h-100"
+            style="padding-bottom: 70px"
+          >
+            <%for(let i = 0; i < clients.length; i++){%> <%if(i == 0){%>
+            <li
+              class="nav-link-text selected_client border-0"
+              mid="<%=clients[i].id%>"
+              value="<%=clients[i].name%>"
+            >
+              <span
+                style="
+                  display: flex;
+                  margin-right: 15px;
+                  border-radius: 50%;
+                  padding: 3px;
+                  background-color: #56575b;
+                "
+                ><i class="fa-solid fa-list" style="color: #ffffff"></i
+              ></span>
+              <%if(clients[i].length > 18){%> <%=clients[i].name.substring(0,
+              14) + '...' %> <%}else{%> <%=clients[i].name%> <%}%>
+            </li>
+            <%}else{%>
+            <li
+              class="nav-link-text unselected_client border-0"
+              mid="<%=clients[i].id%>"
+              value="<%=clients[i].name%>"
+            >
+              <span
+                style="
+                  display: flex;
+                  margin-right: 15px;
+                  border-radius: 50%;
+                  padding: 3px;
+                  background-color: #56575b;
+                "
+                ><i class="fa-solid fa-list" style="color: #ffffff"></i
+              ></span>
+              <%if(clients[i].length > 18){%> <%=clients[i].name.substring(0,
+              14) + '...' %> <%}else{%> <%=clients[i].name%> <%}%>
+            </li>
+            <%}%> <%}%>
+          </div>
+        </div>
+        <div class="d-flex w-90 overflow-hidden px-3">
+          <div class="w-100 overflow-hidden h-100">
+            <p id="leads-count" class="mb-0 font-weight-bold text-dark">
+              Leads Count: 20
+            </p>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>
+                      <input type="checkbox" class="all-checkbox" />
+                    </th>
+                    <th>
+                      <div class="beforeCollapse">No.</div>
+                    </th>
+                    <th>
+                      <div class="beforeCollapse">Id</div>
+                    </th>
+
+                    <th class="collapsible-column">
+                      <div class="beforeCollapse">Date</div>
+                    </th>
+
+                    <th class="collapsible-column">
+                      <div class="beforeCollapse">Client Name</div>
+                    </th>
+
+                    <th class="collapsible-column">
+                      <div class="beforeCollapse">Project name</div>
+                    </th>
+
+                    <th class="collapsible-column">
+                      <div class="beforeCollapse">Name</div>
+                    </th>
+
+                    <th class="collapsible-column">
+                      <div class="beforeCollapse">Mobile</div>
+                    </th>
+
+                    <th class="collapsible-column">
+                      <div class="beforeCollapse">Email</div>
+                    </th>
+
+                    <th class="collapsible-column">
+                      <div class="beforeCollapse">IP Address</div>
+                    </th>
+                    <th class="collapsible-column">
+                      <div class="beforeCollapse">Read</div>
+                    </th>
+                    <th class="collapsible-column">
+                      <div class="beforeCollapse">Discord Status</div>
+                    </th>
+
+                    <th class="collapsible-column">
+                      <div class="beforeCollapse">Status</div>
+                    </th>
+                    <th class="collapsible-column">
+                      <div class="beforeCollapse">Source URL</div>
+                    </th>
+                    <th class="collapsible-column">
+                      <div class="beforeCollapse">Send By Admin</div>
+                    </th>
+                    <th class="collapsible-column">
+                      <div class="beforeCollapse">utm_source</div>
+                    </th>
+                    <th class="collapsible-column">
+                      <div class="beforeCollapse">utm_medium</div>
+                    </th>
+                    <th class="collapsible-column">
+                      <div class="beforeCollapse">utm_campaign</div>
+                    </th>
+                    <th class="collapsible-column">
+                      <div class="beforeCollapse">utm_content</div>
+                    </th>
+                    <th class="collapsible-column">
+                      <div class="beforeCollapse">utm_term</div>
+                    </th>
+                    <th class="collapsible-column">
+                      <div class="beforeCollapse">match_type</div>
+                    </th>
+                    <th class="collapsible-column">
+                      <div class="beforeCollapse">extension</div>
+                    </th>
+                    <th class="collapsible-column">
+                      <div class="beforeCollapse">device</div>
+                    </th>
+                    <th class="collapsible-column">
+                      <div class="beforeCollapse">location</div>
+                    </th>
+                    <th class="collapsible-column">
+                      <div class="beforeCollapse">placement_category</div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody id="table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <dialog class="download-leads-modal position-relative border-1 rounded-2">
+        <button
+          class="position-absolute top-1 end-1 text-dark bg-transparent h4 border-0 rounded-2"
+          onclick="this.parentElement.close()"
+        >
+          X
+        </button>
+        <div>
+          <div class="d-flex flex-column gap-2 py-2 pt-4">
+            <Button
+              class="btn-primary btn border"
+              onclick="markStatus('banned')"
+              style="background-color: #002655; box-shadow: none"
+              >Mark as Junk</Button
+            >
+            <Button
+              class="btn-primary btn border"
+              onclick="markStatus('read')"
+              style="background-color: #002655; box-shadow: none"
+              >Mark as Read</Button
+            >
+            <Button
+              class="btn-primary btn border"
+              onclick="downloadLeadsHandler('all')"
+              style="background-color: #002655; box-shadow: none"
+              >Download all leads</Button
+            >
+            <Button
+              class="btn-primary btn border"
+              onclick="downloadLeadsHandler('selected')"
+              style="background-color: #002655; box-shadow: none"
+            >
+              Download selected leads</Button
+            >
+            <Button
+              class="btn-primary btn border"
+              onclick="downloadLeadsHandler('clear')"
+              style="background-color: #002655; box-shadow: none"
+            >
+              Download clear leads</Button
+            >
+            <Button
+              class="btn-primary btn border"
+              onclick="sendLeadsToDiscord(this)"
+              style="background-color: #002655; box-shadow: none"
+              >Send selected leads to Discord</Button
+            >
+            <Button
+              class="btn-primary btn border"
+              onclick="syncDNCHandler(this)"
+              style="background-color: #002655; box-shadow: none"
+              >Sync DNC Status</Button
+            >
+          </div>
+        </div>
+      </dialog>
+
+      <dialog
+        class="import-leads-modal position-relative border-1 rounded-2 h-100 w-100"
+      >
+        <!-- Close Button -->
+        <button
+          class="position-absolute top-1 end-1 text-dark bg-transparent h4 border-0 rounded-2"
+          onclick="this.parentElement.close()"
+        >
+          X
+        </button>
+
+        <!-- Dialog Content -->
+        <div class="container p-4">
+          <h4 class="text-center mb-4">Import Leads</h4>
+
+          <!-- Select Client -->
+          <div class="mb-3">
+            <label for="selectClient" class="form-label">Select Client</label>
+            <select
+              id="selectClient"
+              class="form-select"
+              onchange="populateForms()"
+            >
+              <option selected disabled>Select a Client</option>
+              <% clients.forEach(client => { %>
+              <option value="<%= client.id %>"><%= client.name %></option>
+              <% }); %>
+            </select>
+          </div>
+
+          <!-- Select Form -->
+          <div class="mb-3">
+            <label for="selectForm" class="form-label">Select Form</label>
+            <select id="selectForm" class="form-select" disabled>
+              <option selected disabled>Select a Form</option>
+            </select>
+          </div>
+
+          <!-- API Endpoint Input -->
+          <div class="mb-3">
+            <label for="apiEndpoint" class="form-label">API Endpoint</label>
+            <input
+              type="text"
+              id="apiEndpoint"
+              class="form-control"
+              placeholder="Enter API endpoint"
+            />
+          </div>
+
+          <!-- Fetch and Display Leads Button -->
+          <div class="text-center">
+            <button class="btn btn-primary" onclick="fetchApiData()">
+              Fetch Leads
+            </button>
+          </div>
+
+          <!-- Leads Selection Section -->
+          <div id="leadsContainer" class="mt-4 d-none">
+            <h5 class="text-center">Select Leads to Import</h5>
+            <div id="leadsList" class="list-group"></div>
+            <div class="text-center mt-3">
+              <button class="btn btn-success" onclick="sendLeadsToDatabase()">
+                Import Selected Leads
+              </button>
+            </div>
+          </div>
+        </div>
+      </dialog>
+      <dialog
+        class="send-lead-modal position-relative border-1 rounded-2 h-100 w-100"
+      >
+        <button
+          class="position-absolute top-1 end-1 text-dark bg-transparent h4 border-0 rounded-2"
+          onclick="this.parentElement.close()"
+        >
+          X
+        </button>
+
+        <div class="mt-4">
+          <label
+            for="client_db"
+            style="font-size: 17px; color: #000000"
+            class="mb-0 text-xl"
+          >
+            Client
+          </label>
+          <select
+            id="client_db"
+            class="client-select form-select p-1 px-2"
+            onchange="selectClientHandler(this)"
+          >
+            <option value="0" disabled selected>Select Client</option>
+            <%for(let i = 0; i < clients.length; i++){%>
+            <option value="<%=clients[i].id%>"><%=clients[i].name%></option>
+            <%}%>
+          </select>
+        </div>
+        <div class="mt-3">
+          <label
+            for="website_url"
+            style="font-size: 17px; color: #000000"
+            class="mb-0 text-xl"
+          >
+            Website URL
+          </label>
+          <select
+            id="website_url"
+            class="form-select border border-1 px-2"
+            onchange="selectWebsiteUrlHandler(this)"
+          >
+            <option value="0" disabled selected>Select Website URL</option>
+            <%for(let i = 0; i < forms.length; i++){%>
+            <option value="<%=forms[i].id%>"><%=forms[i].name%></option>
+            <%}%>
+            <option value="other">Other (please specify)</option>
+          </select>
+          <div class="hidden" id="website_url_other">
+            <input
+              id="website_url_input"
+              type="text"
+              class="form-control border border-1 p-1 mt-3"
+              placeholder="Enter Website URL"
+            />
+            <select
+              class="server-select form-select p-1 mt-4"
+              onchange="selectServerHandler(this)"
+            ></select>
+            <select
+              class="channel-select form-select p-1 mt-2"
+              onchange="selectChannelHandler(this)"
+            ></select>
+          </div>
+        </div>
+        <div class="mt-3">
+          <label
+            for="bot_name"
+            class="mb-0 text-xl"
+            style="font-size: 17px; color: #000000"
+          >
+            Bot Name
+          </label>
+          <select
+            name="bot_name"
+            id="bot_name"
+            class="form-select border border-1 px-2"
+            onchange="selectBotHandler(this)"
+          >
+            <option value="0" disabled selected>Select Bot</option>
+            <%for(let i = 0; i < botNames.length; i++){%>
+            <option value="<%=botNames[i]%>"><%=botNames[i]%></option>
+            <%}%>
+            <option value="other">Other (please specify)</option>
+          </select>
+          <input
+            name="bot_name"
+            id="bot_name_input"
+            type="text"
+            class="form-control border border-1 p-1 hidden mt-3"
+            placeholder="Bot Name"
+          />
+        </div>
+        <div class="mt-3">
+          <label
+            for="client_name"
+            class="mb-0 text-xl"
+            style="font-size: 17px; color: #000000"
+          >
+            Client Name
+          </label>
+          <select
+            name="client_name"
+            id="client_name"
+            class="form-select border border-1 px-2"
+            onchange="selectClientNameHandler(this)"
+          >
+            <option value="0" disabled selected>Select Client</option>
+            <%for(let i = 0; i < clientNames.length; i++){%>
+            <option value="<%=clientNames[i]%>"><%=clientNames[i]%></option>
+            <%}%>
+            <option value="other">Other (please specify)</option>
+          </select>
+          <input
+            type="text"
+            class="form-control border border-1 p-1 hidden mt-3"
+            placeholder="Client Name"
+            id="client_name_input"
+          />
+        </div>
+
+        <div class="mt-3">
+          <label
+            for="project_name"
+            class="mb-0 text-xl"
+            style="font-size: 17px; color: #000000"
+          >
+            Project Name
+          </label>
+          <select
+            name="project_name"
+            id="project_name"
+            class="form-select border border-1 px-2"
+            onchange="selectProjectHandler(this)"
+          >
+            <option value="0" disabled selected>Select Project</option>
+            <%for(let i = 0; i < projectNames.length; i++){%>
+            <option value="<%=projectNames[i]%>"><%=projectNames[i]%></option>
+            <%}%>
+            <option value="other">Other (please specify)</option>
+          </select>
+          <input
+            name="project_name"
+            id="project_name_input"
+            type="text"
+            class="form-control border border-1 p-1 hidden mt-3"
+            placeholder="Project Name"
+          />
+        </div>
+
+        <div class="form-container">
+          <div class="mt-3">
+            <label
+              for="name"
+              class="mb-0 text-xl"
+              style="font-size: 17px; color: #000000"
+            >
+              Name </label
+            ><input
+              type="checkbox"
+              class="ms-2 confirmation_checkbox"
+              checked
+            />
+            <span>Send to Discord</span>
+            <input
+              id="name"
+              type="text"
+              class="form-control border border-1 p-1"
+              placeholder="Name"
+            />
+          </div>
+          <div class="mt-3">
+            <label
+              for="email"
+              class="mb-0 text-xl"
+              style="font-size: 17px; color: #000000"
+            >
+              Email
+            </label>
+            <input type="checkbox" class="ms-2 confirmation_checkbox" checked />
+            <span>Send to Discord</span>
+            <input
+              id="email"
+              type="text"
+              class="form-control border border-1 p-1"
+              placeholder="Email"
+            />
+          </div>
+          <div class="mt-3">
+            <label
+              for="phone"
+              class="mb-0 text-xl"
+              style="font-size: 17px; color: #000000"
+            >
+              Phone
+            </label>
+            <input type="checkbox" class="ms-2 confirmation_checkbox" checked />
+            <span>Send to Discord</span>
+            <input
+              id="phone"
+              type="text"
+              class="form-control border border-1 p-1"
+              placeholder="Phone"
+            />
+          </div>
+          <div class="mt-3">
+            <label
+              for="form_type"
+              class="mb-0 text-xl"
+              style="font-size: 17px; color: #000000"
+            >
+              Form Type
+            </label>
+            <input type="checkbox" class="ms-2 confirmation_checkbox" checked />
+            <span>Send to Discord</span>
+            <input
+              id="form_type"
+              type="text"
+              class="form-control border border-1 p-1"
+              placeholder="form_type"
+            />
+          </div>
+          <div class="mt-3">
+            <label
+              for="request"
+              class="mb-0 text-xl"
+              style="font-size: 17px; color: #000000"
+              >Request For
+            </label>
+            <input type="checkbox" class="ms-2 confirmation_checkbox" checked />
+            <span>Send to Discord</span>
+            <select class="form-select border border-1 p-1" id="request">
+              <option disabled selected>Please Select Request</option>
+              <option value="Request For E-Brochure">
+                Request For E-Brochure
+              </option>
+              <option value="Units & Price List">Units & Price List</option>
+              <option value="Arrange Showflat Viewing">
+                Arrange Showflat Viewing
+              </option>
+            </select>
+          </div>
+          <div class="mt-3">
+            <label
+              for="bedroom"
+              class="mb-0 text-xl"
+              style="font-size: 17px; color: #000000"
+              >Bedroom Type
+            </label>
+            <input type="checkbox" class="ms-2 confirmation_checkbox" checked />
+            <span>Send to Discord</span>
+            <select class="form-select border border-1 p-1" id="bedroom">
+              <option disabled selected>Please Select Bedroom</option>
+              <option value="1 Bedroom">1 Bedroom</option>
+              <option value="1 Bedroom + study">1 Bedroom + study</option>
+              <option value="2 Bedroom">2 Bedroom</option>
+              <option value="2 Bedroom + study">2 Bedroom + study</option>
+              <option value="2 Bedroom Premium">2 Bedroom Premium</option>
+              <option value="3 Bedroom">3 Bedroom</option>
+              <option value="3 Bedroom Premium">3 Bedroom Premium</option>
+              <option value="4 Bedroom">4 Bedroom</option>
+              <option value="4 Bedroom Premium">4 Bedroom Premium</option>
+              <option value="5 Bedroom">5 Bedroom</option>
+            </select>
+          </div>
+
+          <div>
+            <p class="error-para" style="font-size: 14px"></p>
+          </div>
+
+          <div class="mt-4 text-center">
+            <button
+              class="btn btn-primary"
+              style="background-color: #002655; box-shadow: none"
+              onclick="sendLeadToDiscord(this)"
+            >
+              Send Lead
+            </button>
+          </div>
+        </div>
+      </dialog>
+    </main>
+    <script src="script/leadscript.js"></script>
+
+    <!--   Core JS Files   -->
+    <script src="/assets/js/core/popper.min.js"></script>
+    <script src="/assets/js/core/bootstrap.min.js"></script>
+    <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script src="/assets/js/plugins/chartjs.min.js"></script>
+    <!-- Github buttons -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src="/assets/js/material-dashboard.min.js?v=3.1.0"></script>
+    <script>
+      const importDialog = document.querySelector(".import-leads-modal");
+      document.getElementById("importButton").addEventListener("click", () => {
+        importDialog.showModal();
+      });
+    </script>
+
+    <!-- import leads script -->
+    <script>
+      // Fetch Forms based on selected client
+      async function populateForms() {
+        const clientId = document.getElementById("selectClient").value;
+        const selectForm = document.getElementById("selectForm");
+        selectForm.disabled = true;
+        selectForm.innerHTML =
+          "<option selected disabled>Loading Forms...</option>";
+
+        let forms = await fetchForms();
+
+        forms = forms.filter((form) => form.client_id == clientId);
+        selectForm.innerHTML =
+          "<option selected disabled>Select a Form</option>";
+        forms.forEach((form) => {
+          selectForm.innerHTML += `<option value="${form.id}">${form.name}</option>`;
+        });
+        selectForm.disabled = false;
+      }
+
+      async function fetchApiData() {
+        const endpoint = document.getElementById("apiEndpoint").value;
+        if (!endpoint) {
+          alert("Please enter an API endpoint");
+          return;
+        }
+
+        try {
+          const res = await fetch(endpoint);
+          const data = await res.json();
+          displayLeads(data);
+          document.getElementById("leadsContainer").classList.remove("d-none");
+        } catch (error) {
+          alert("Error fetching data from API!");
+          console.error(error);
+        }
+      }
+
+      // Display leads in a list with checkboxes
+      function displayLeads(leads) {
+        const leadsList = document.getElementById("leadsList");
+        leadsList.innerHTML = "";
+        leads.forEach((lead, index) => {
+          leadsList.innerHTML += `
+              <div class="list-group-item">
+                  <input type="checkbox" id="lead-${index}" value='${JSON.stringify(
+            lead
+          )}'>
+                  <label for="lead-${index}">${lead.name} - ${lead.email} - ${
+            lead.phone
+          }</label>
+              </div>
+          `;
+        });
+      }
+
+      // Send selected leads to the database
+      async function sendLeadsToDatabase() {
+        const clientId = document.getElementById("selectClient").value;
+        const formId = document.getElementById("selectForm").value;
+        if (!clientId || !formId) {
+          alert("Please select both Client and Form.");
+          return;
+        }
+
+        const selectedLeads = [];
+        const checkboxes = document.querySelectorAll(
+          '#leadsList input[type="checkbox"]:checked'
+        );
+        checkboxes.forEach((checkbox) => {
+          selectedLeads.push(JSON.parse(checkbox.value));
+        });
+
+        if (selectedLeads.length === 0) {
+          alert("Please select at least one lead to import.");
+          return;
+        }
+
+        try {
+          const res = await fetch(`/api/leads/import/${clientId}/${formId}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ leads: selectedLeads }),
+          });
+
+          const response = await res.json();
+          alert(response.message || "Leads imported successfully!");
+        } catch (error) {
+          alert("Error importing leads!");
+          console.error(error);
+        }
+      }
+    </script>
+
+    <!-- Send custom lead to discord -->
+    <script>
+      async function sendLeadToDiscord(btn) {
+        const error_para = document.querySelector(".error-para");
+        const form_container = document.querySelector(".form-container");
+        const client_select = document.getElementById("client_db");
+        const website_url_select = document.getElementById("website_url");
+        const website_url_input = document.getElementById("website_url_input");
+        let childrens = form_container.querySelectorAll("div");
+        const bot_name = document.getElementById("bot_name");
+        const client_name = document.getElementById("client_name");
+        const project_name = document.getElementById("project_name");
+        const server_select = document.querySelector(".server-select");
+        const channel_select = document.querySelector(".channel-select");
+        const project_name_input =
+          document.getElementById("project_name_input");
+        const client_name_input = document.getElementById("client_name_input");
+        const bot_name_input = document.getElementById("bot_name_input");
+
+        if (client_select.value == "0") {
+          error_para.style.color = "red";
+          error_para.innerHTML = "Please select a client";
+          return;
+        }
+
+        if (website_url_select.value == "0" || website_url_select.value == "") {
+          error_para.style.color = "red";
+          error_para.innerHTML = "Please select a website";
+          return;
+        }
+
+        if (
+          website_url_select.value == "other" &&
+          website_url_input.value == ""
+        ) {
+          error_para.style.color = "red";
+          if (server_select.value == "" || server_select.value == "0") {
+            error_para.innerHTML = "Please select a server";
+            return;
+          }
+
+          if (channel_select.value == "" || channel_select.value == "0") {
+            error_para.innerHTML = "Please select a channel";
+            return;
+          }
+
+          error_para.innerHTML = "Please enter a website URL";
+          return;
+        }
+
+        if (bot_name.value == "0") {
+          error_para.style.color = "red";
+          error_para.innerHTML = "Please select a bot Name";
+          return;
+        }
+
+        if (bot_name.value == "other" && bot_name_input.value == "") {
+          error_para.style.color = "red";
+          error_para.innerHTML = "Please enter a bot Name";
+          return;
+        }
+
+        if (client_name.value == "0") {
+          error_para.style.color = "red";
+          error_para.innerHTML = "Please select a client Name";
+          return;
+        }
+
+        if (client_name.value == "other" && client_name_input.value == "") {
+          error_para.style.color = "red";
+          error_para.innerHTML = "Please enter a client Name";
+          return;
+        }
+
+        if (project_name.value == "0") {
+          error_para.style.color = "red";
+          error_para.innerHTML = "Please select a project Name";
+          return;
+        }
+
+        if (project_name.value == "other" && project_name_input.value == "") {
+          error_para.style.color = "red";
+          error_para.innerHTML = "Please enter a project Name";
+          return;
+        }
+
+        const data = {
+          bot_name:
+            bot_name.value == "other" ? bot_name_input.value : bot_name.value,
+          client_name:
+            client_name.value == "other"
+              ? client_name_input.value
+              : client_name.value,
+          project_name:
+            project_name.value == "other"
+              ? project_name_input.value
+              : project_name.value,
+          discord: discordUrl,
+          website:
+            website_url_select.value == "other"
+              ? website_url_input.value
+              : website_url_select.value,
+          client_id: client_select.value,
+          new_form: website_url_select.value == "other" ? true : false,
+        };
+
+        for (const child of childrens) {
+          const checkbox = child.querySelector('input[type="checkbox"]');
+          if (!checkbox) continue;
+          const textField = child.querySelector('input[type="text"]');
+          const select = child.querySelector("select");
+          const label = child.querySelector("label").innerText;
+          if (checkbox.checked) {
+            if (select) {
+              data[label] = select.value;
+            } else {
+              data[label] = textField.value;
+            }
+          }
+        }
+
+        try {
+          // send to the backend API
+          const res = await fetch("/api/leads/send/discord", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          });
+
+          if (!res.ok) {
+            error_para.style.color = "red";
+            error_para.innerHTML = "Something went wrong";
+          }
+
+          const responseData = await res.json();
+          error_para.style.color = "green";
+          error_para.innerHTML = "Lead sent successfully";
+        } catch (error) {
+          console.error(error);
+          const message =
+            error.message ||
+            "An error occurred while sending lead to discord. Please try again.";
+          error_para.style.color = "red";
+          error_para.innerHTML = message;
+        }
+      }
+    </script>
+
+    <!-- custom lead form script -->
+    <script>
+      let discordUrl;
+      const send_lead_button = document.getElementById("sendLeadButton");
+      const lead_form_dialog = document.querySelector(".send-lead-modal");
+
+      send_lead_button.addEventListener("click", async function () {
+        const server_select = document.querySelector(".server-select");
+        const data = await getServers();
+        server_select.innerHTML = `<option value="0" selected disabled>Select Server</option>`;
+        data.forEach((server) => {
+          let newOption = document.createElement("option");
+          newOption.value = server.id;
+          newOption.text = server.name;
+          server_select.add(newOption);
+        });
+        lead_form_dialog.showModal();
+      });
+
+      async function selectClientHandler(select) {
+        const website_url_select = document.getElementById("website_url");
+        const forms = await fetchForms();
+        const client_id = select.value;
+        const filterForms = forms.filter((form) => form.client_id == client_id);
+        website_url_select.innerHTML = `<option value="" disabled selected>Select Website URL</option>`;
+        filterForms.forEach((form) => {
+          website_url_select.innerHTML += `
+              <option value="${form.id}">${form.name}</option>
+          `;
+        });
+        website_url_select.innerHTML += `
+              <option value="other">Other (please specify) </option>
+
+        `;
+      }
+
+      async function selectBotHandler(select) {
+        const bot_name_input = document.getElementById("bot_name_input");
+        const bot_name = select.value;
+        if (bot_name === "other") {
+          bot_name_input.classList.remove("hidden");
+        } else {
+          bot_name_input.classList.add("hidden");
+        }
+      }
+
+      async function selectClientNameHandler(select) {
+        const client_name_input = document.getElementById("client_name_input");
+        const client_name = select.value;
+        if (client_name === "other") {
+          client_name_input.classList.remove("hidden");
+        } else {
+          client_name_input.classList.add("hidden");
+        }
+      }
+
+      function selectProjectHandler(select) {
+        const project_name_input =
+          document.getElementById("project_name_input");
+        const project_name = select.value;
+        if (project_name === "other") {
+          project_name_input.classList.remove("hidden");
+        } else {
+          project_name_input.classList.add("hidden");
+        }
+      }
+
+      function selectWebsiteUrlHandler(select) {
+        const website_url_input = document.getElementById("website_url_other");
+        const website_url = select.value;
+        if (website_url === "other") {
+          website_url_input.classList.remove("hidden");
+        } else {
+          website_url_input.classList.add("hidden");
+        }
+      }
+
+      async function getServers() {
+        try {
+          const response = await fetch(`/api/discord/getServers/`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          if (response.status === 200) {
+            const data = await response.json();
+            return data;
+          } else {
+            return [];
+          }
+        } catch (error) {
+          return [];
+        }
+      }
+
+      async function selectServerHandler(select) {
+        const serverId = select.value;
+        const channelSelect = document.querySelector(".channel-select");
+        channelSelect.innerHTML = "";
+        channelSelect.innerHTML = `<option value="0" selected disabled>Loading...</option>`;
+        const collections = await fetchChannels(serverId);
+
+        channelSelect.innerHTML = `<option value="0" selected disabled>Select Channel</option>`;
+        collections.forEach((collection) => {
+          let newOption = document.createElement("option");
+          newOption.value = collection.id;
+          newOption.text = collection.name;
+          channelSelect.add(newOption);
+        });
+      }
+
+      async function fetchChannels(serverId) {
+        const response = await fetch(`/api/discord/channels/${serverId}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (response.status === 200) {
+          const data = await response.json();
+          return data;
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Error getting channels",
+          });
+        }
+      }
+
+      async function selectChannelHandler(select) {
+        const channelId = select.value;
+        const data = await fetchWebHooks(channelId);
+        const url = data[0]?.url || false;
+        if (!url) {
+        }
+        discordUrl = url;
+      }
+
+      async function fetchWebHooks(channelId) {
+        const response = await fetch(`/api/discord/webhooks/${channelId}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (response.status === 200) {
+          const data = await response.json();
+          return data;
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Error getting webhooks",
+          });
+        }
+      }
+    </script>
+
+    <script>
+      let leads = [];
+      let forms = [];
+      start();
+      filter();
+
+      async function start() {
+        const res = await fetch(`/api/fetch/leads`);
+        const data = await res.json();
+        forms = await fetchForms();
+        leads = data;
+        const client_id = document
+          .querySelector(".selected_client")
+          .getAttribute("mid");
+        const junk_flter = document.getElementById("junk-filter");
+        const read_flter = document.getElementById("read-filter");
+        const nextLeads = leads.filter((lead) => {
+          if (
+            lead.status == "clear" &&
+            lead.is_read == 0 &&
+            lead.client_id == client_id
+          ) {
+            return true;
+          }
+        });
+
+        populateLeads(nextLeads);
+        populateFormsSelect(client_id);
+
+        const all_checkbox = document.getElementsByClassName("all-checkbox")[0];
+        all_checkbox.addEventListener("click", () => {
+          const isChecked = all_checkbox.checked;
+          const tableBody = document.getElementById("table-body");
+          const inputs = tableBody.querySelectorAll("input[type='checkbox']");
+
+          inputs.forEach((input) => {
+            input.checked = isChecked;
+          });
+        });
+      }
+
+      function filter() {
+        // ###### Calling the filters ######
+
+        // Search input
+        const input_search = document.querySelector(".input_search");
+        const form_filter = document.getElementById("form-filter");
+        const junk_flter = document.getElementById("junk-filter");
+        const read_flter = document.getElementById("read-filter");
+        const liElements = document.querySelectorAll(".nav-link-text");
+
+        let startDate = "";
+        let endDate = "";
+
+        $(function () {
+          $('input[name="daterange"]').daterangepicker({
+            autoUpdateInput: false,
+            locale: {
+              cancelLabel: "Clear",
+            },
+          });
+          $('input[name="daterange"]').on(
+            "apply.daterangepicker",
+            function (ev, picker) {
+              $(this).val(
+                picker.startDate.format("MM/DD/YYYY") +
+                  " - " +
+                  picker.endDate.format("MM/DD/YYYY")
+              );
+              startDate = picker.startDate;
+              endDate = picker.endDate;
+              applyFilters();
+            }
+          );
+          $('input[name="daterange"]').on(
+            "cancel.daterangepicker",
+            function (ev, picker) {
+              $(this).val("");
+              startDate = "";
+              endDate = "";
+              applyFilters();
+            }
+          );
+        });
+        form_filter.addEventListener("change", applyFilters);
+        input_search.addEventListener("input", applyFilters);
+        junk_flter.addEventListener("change", applyFilters);
+        read_flter.addEventListener("change", applyFilters);
+
+        liElements.forEach(function (li) {
+          li.addEventListener("click", (event) => {
+            const curr_elem = event.target;
+            clearclientSelected(curr_elem);
+            const client_id = curr_elem.getAttribute("mid");
+            populateFormsSelect(client_id);
+            input_search.value = "";
+            startDate = "";
+            endDate = "";
+            const junk_flter = document.getElementById("junk-filter");
+            const read_flter = document.getElementById("read-filter");
+            filterLeads = leads.filter((lead) => {
+              if (
+                (lead.status == junk_flter.value ||
+                  junk_flter.value == "all") &&
+                (lead.is_read == read_flter.value ||
+                  read_flter.value == "all") &&
+                lead.client_id == client_id
+              ) {
+                return true;
+              }
+            });
+            populateLeads(filterLeads);
+          });
+        });
+
+        function applyFilters() {
+          const id = document
+            .querySelector(".selected_client")
+            .getAttribute("mid");
+          let filterleads = leads;
+          form_filter_value = form_filter.value;
+          search_value = input_search.value;
+          junk_filter_value = junk_flter.value;
+          read_filter_value = read_flter.value;
+
+          if (search_value) {
+            filterleads = filterleads.filter((elem) => {
+              let objectAsString = JSON.stringify(elem);
+              return objectAsString
+                .toLocaleLowerCase()
+                .includes(search_value.toLocaleLowerCase());
+            });
+          }
+
+          if (id) {
+            filterleads = filterleads.filter((elem) => {
+              return elem.client_id == id;
+            });
+          }
+
+          if (junk_filter_value && junk_filter_value != "all") {
+            filterleads = filterleads.filter((elem) => {
+              return elem.status == junk_filter_value;
+            });
+          }
+
+          if (read_filter_value && read_filter_value != "all") {
+            filterleads = filterleads.filter((elem) => {
+              return elem.is_read == read_filter_value;
+            });
+          }
+
+          if (form_filter_value && form_filter_value != "all") {
+            filterleads = filterleads.filter((elem) => {
+              return elem.form_id == form_filter_value;
+            });
+          }
+
+          if (startDate != "" && endDate != "") {
+            filterleads = filterleads.filter((lead) => {
+              const createdAtDate = new Date(lead.created_at);
+              const milliseconds = createdAtDate.getTime();
+              return milliseconds >= startDate && milliseconds <= endDate;
+            });
+          }
+          populateLeads(filterleads);
+        }
+      }
+
+      function clearFilters() {
+        const clientFilter = document.getElementById("client-filter");
+        const projectFilter = document.getElementById("project-filter");
+        const junkFilter = document.getElementById("junk-filter");
+        clientFilter.value = "all";
+        projectFilter.value = "all";
+        junkFilter.value = "all";
+      }
+
+      function populateLeads(filterleads) {
+        const tbody = document.getElementById("table-body");
+        tbody.innerHTML = "";
+
+        document.querySelectorAll(".collapsible-btn").forEach((btn) => {
+          btn.innerHTML = "&#x2212;";
+          btn.previousElementSibling.classList.remove("vertical-header");
+          btn.parentElement.classList.remove("afterCollapsible");
+          btn.previousElementSibling.classList.add("beforeCollapse");
+          // btn.previousElementSibling.classList.remove('hidden');
+        });
+        const leadsCount = document.getElementById("leads-count");
+        leadsCount.textContent = `Leads Count: ${filterleads.length}`;
+
+        // Iterate through the filterleads array
+        for (let i = 0; i < filterleads.length; i++) {
+          const newRow = document.createElement("tr");
+
+          // Create a checkbox cell
+          const cellCheckbox = document.createElement("td");
+          cellCheckbox.innerHTML = `<input type="checkbox"/>`;
+          cellCheckbox.style.width = "10px";
+          newRow.appendChild(cellCheckbox);
+
+          // Create a cell for the index
+          const cellIndex = document.createElement("td");
+          cellIndex.innerHTML = `${i + 1}`;
+          cellIndex.style.width = "10px";
+          newRow.appendChild(cellIndex);
+
+          // Create a cell for the lead ID
+          const cellLeadId = document.createElement("td");
+          cellLeadId.innerHTML = filterleads[i].id;
+          cellLeadId.classList.add("lead_id");
+          cellLeadId.style.width = "10px";
+          newRow.appendChild(cellLeadId);
+
+          // Create a cell for the creation date
+          const cellCreatedAt = document.createElement("td");
+          const timestamp = filterleads[i].created_at;
+          const date = new Date(timestamp);
+          const formattedDate = date.toISOString().split("T")[0];
+          cellCreatedAt.innerHTML = `${formattedDate}`;
+          cellCreatedAt.style.whiteSpace = "nowrap";
+          cellCreatedAt.classList.add("one");
+          newRow.appendChild(cellCreatedAt);
+
+          // Create a cell for the client name
+          const cellClientName = document.createElement("td");
+          cellClientName.innerHTML = `${filterleads[i].client_name}`;
+          cellClientName.classList.add("two");
+          newRow.appendChild(cellClientName);
+
+          // Create a cell for the form name
+          const cellFormName = document.createElement("td");
+          cellFormName.innerHTML = `${filterleads[i].form_name}`;
+          cellFormName.classList.add("three");
+          newRow.appendChild(cellFormName);
+
+          // Create a cell for the name
+          const cellName = document.createElement("td");
+          cellName.innerHTML = `${filterleads[i].name}`;
+          cellName.classList.add("four");
+          newRow.appendChild(cellName);
+
+          // Create a cell for the phone number
+          const cellPhone = document.createElement("td");
+          cellPhone.innerHTML = `${filterleads[i].phone}`;
+          cellPhone.classList.add("five");
+          newRow.appendChild(cellPhone);
+
+          // Create a cell for the email
+          const cellEmail = document.createElement("td");
+          cellEmail.innerHTML = `${filterleads[i].email}`;
+          cellEmail.classList.add("six");
+          newRow.appendChild(cellEmail);
+
+          // Create a cell for the IP address
+          const cellIPAddress = document.createElement("td");
+          cellIPAddress.innerHTML = `${filterleads[i].ip_address}`;
+          cellIPAddress.classList.add("seven");
+          newRow.appendChild(cellIPAddress);
+
+          // Create a cell for the read status
+          const cellReadStatus = document.createElement("td");
+          cellReadStatus.innerHTML =
+            filterleads[i].is_read == 1 ? "READ" : "NOT READ";
+          cellReadStatus.style.backgroundColor =
+            filterleads[i].is_read == 1 ? "#61D393" : "red";
+          cellReadStatus.style.fontWeight = "900";
+          cellReadStatus.style.color =
+            filterleads[i].is_read == 1 ? "black" : "white";
+          newRow.appendChild(cellReadStatus);
+
+          // Create a cell for the Discord status
+          const cellDiscordStatus = document.createElement("td");
+          cellDiscordStatus.innerHTML =
+            filterleads[i].is_send_discord == 1 ? "SENT" : "PENDING";
+          cellDiscordStatus.style.backgroundColor =
+            filterleads[i].is_send_discord == 1 ? "#61D393" : "red";
+          cellDiscordStatus.style.fontWeight = "900";
+          cellDiscordStatus.style.color =
+            filterleads[i].is_send_discord == 1 ? "black" : "white";
+          newRow.appendChild(cellDiscordStatus);
+
+          // Create a cell for the lead status
+          const cellStatus = document.createElement("td");
+          cellStatus.innerHTML = filterleads[i].status.toUpperCase();
+          cellStatus.classList.add("eight");
+          cellStatus.style.fontWeight = "900";
+          cellStatus.style.color =
+            filterleads[i].status === "junk" || filterleads[i].status == "dnc"
+              ? "white"
+              : "black";
+          switch (filterleads[i].status) {
+            case "clear":
+              cellStatus.style.backgroundColor = "#61D393";
+              break;
+            case "junk":
+              cellStatus.style.backgroundColor = "red";
+              break;
+            case "unknown":
+              cellStatus.style.backgroundColor = "#FFCA46";
+              break;
+            case "dnc":
+              cellStatus.style.backgroundColor = "red";
+              break;
+            default:
+              break;
+          }
+          newRow.appendChild(cellStatus);
+
+          // create a cell for the source url
+          const cellSourceUrl = document.createElement("td");
+          cellSourceUrl.innerHTML = `${filterleads[i].source_url}`;
+          newRow.appendChild(cellSourceUrl);
+
+          // Create a cell for the send by admin
+          const cellSendByAdmin = document.createElement("td");
+          cellSendByAdmin.innerHTML = filterleads[i]?.send_by_admin
+            ? "True"
+            : "False";
+          cellSendByAdmin.style.fontWeight = "900";
+          newRow.appendChild(cellSendByAdmin);
+
+          // Create a cell for the parameters
+          const cellParams = document.createElement("td");
+          cellParams.innerHTML = filterleads[i]?.params?.utm_source
+            ? filterleads[i].params.utm_source
+            : "Not found";
+          newRow.appendChild(cellParams);
+
+          // Create a cell for the utm_medium
+          const cellUtmMedium = document.createElement("td");
+          cellUtmMedium.innerHTML = filterleads[i]?.params?.utm_medium
+            ? filterleads[i].params.utm_medium
+            : "Not found";
+          newRow.appendChild(cellUtmMedium);
+
+          // Create a cell for the utm_campaign
+          const cellUtmCampaign = document.createElement("td");
+          cellUtmCampaign.innerHTML = filterleads[i]?.params?.utm_campaign
+            ? filterleads[i].params.utm_campaign
+            : "Not found";
+          newRow.appendChild(cellUtmCampaign);
+
+          // Create a cell for the utm_content
+          const cellUtmContent = document.createElement("td");
+          cellUtmContent.innerHTML = filterleads[i]?.params?.utm_content
+            ? filterleads[i].params.utm_content
+            : "Not found";
+          newRow.appendChild(cellUtmContent);
+
+          // Create a cell for the utm_term
+          const cellUtmTerm = document.createElement("td");
+          cellUtmTerm.innerHTML = filterleads[i]?.params?.utm_term
+            ? filterleads[i].params.utm_term
+            : "Not found";
+          newRow.appendChild(cellUtmTerm);
+
+          // Create a cell for the match_type
+          const cellMatchType = document.createElement("td");
+          cellMatchType.innerHTML = filterleads[i]?.params?.match_type
+            ? filterleads[i].params.match_type
+            : "Not found";
+          newRow.appendChild(cellMatchType);
+
+          // Create a cell for the extension
+          const cellExtension = document.createElement("td");
+          cellExtension.innerHTML = filterleads[i]?.params?.extension
+            ? filterleads[i].params.extension
+            : "Not found";
+          newRow.appendChild(cellExtension);
+
+          // Create a cell for the device
+          const cellDevice = document.createElement("td");
+          cellDevice.innerHTML = filterleads[i]?.params?.device
+            ? filterleads[i].params.device
+            : "Not found";
+          newRow.appendChild(cellDevice);
+
+          // Create a cell for the location
+          const cellLocation = document.createElement("td");
+          cellLocation.innerHTML = filterleads[i]?.params?.location
+            ? filterleads[i].params.location
+            : "Not found";
+          newRow.appendChild(cellLocation);
+
+          // Create a cell for the placement_category
+          const cellPlacementCategory = document.createElement("td");
+          cellPlacementCategory.innerHTML = filterleads[i]?.params
+            ?.placement_category
+            ? filterleads[i].params.placement_category
+            : "Not found";
+          newRow.appendChild(cellPlacementCategory);
+
+          // Append the new row to the tbody
+          tbody.appendChild(newRow);
+        }
+      }
+
+      function dateFormat(dateString) {
+        let date = new Date(dateString);
+        let options = {
+          month: "short",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+          timeZone: "Asia/Singapore",
+        };
+        let humanReadableDate = date.toLocaleString("en-SG", options);
+        return humanReadableDate;
+      }
+
+      function disableAnchor(anchor) {
+        anchor.classList.add("disabled");
+      }
+
+      function enableAnchor(anchor) {
+        anchor.classList.remove("disabled");
+      }
+
+      function showLoadingOverlay() {
+        const overlay = document.querySelector(".overlay");
+        overlay.style.display = "block";
+      }
+
+      function hideLoadingOverlay() {
+        const overlay = document.querySelector(".overlay");
+        overlay.style.display = "none";
+      }
+
+      clearclientSelected = (curr_elem) => {
+        document.querySelectorAll(".clientsname_div li").forEach((element) => {
+          element.classList.remove("selected_client");
+          element.classList.add("unselected_client");
+        });
+        curr_elem.classList.remove("unselected_client");
+        curr_elem.classList.add("selected_client");
+      };
+
+      const searchInput = document.getElementById("search_client");
+      searchInput.addEventListener("input", function () {
+        const searchValue = searchInput.value.toLowerCase();
+
+        // Get the list of client names in the <li> elements
+        const clientItems = document.querySelectorAll(".clientsname_div li");
+
+        // Loop through the list items and hide those that don't match the search query
+        clientItems.forEach(function (item) {
+          // If the client name includes the search value, show the item; otherwise, hide it
+          if (item.textContent.toLowerCase().includes(searchValue)) {
+            item.style.display = ""; // or 'block' or 'flex' depending on your layout
+          } else {
+            item.style.display = "none";
+          }
+        });
+      });
+
+      function toggleColumn(btn) {
+        const collapseClass = btn.getAttribute("collapseId");
+        let contentRows = document.querySelectorAll("." + collapseClass);
+        contentRows.forEach(function (content) {
+          content.querySelector("p").classList.toggle("hidden");
+        });
+        btn.previousElementSibling.classList.toggle("vertical-header");
+        btn.innerHTML = contentRows[0].firstChild.classList.contains("hidden")
+          ? "&#x208A;"
+          : "&#x2212;";
+        btn.parentElement.classList.toggle("afterCollapsible");
+        btn.previousElementSibling.classList.toggle("beforeCollapse");
+      }
+
+      async function fetchForms() {
+        try {
+          const res = await fetch(`/api/fetch/forms`);
+          const data = await res.json();
+          return data;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      async function populateFormsSelect(clientId) {
+        const filteredForms = forms.filter((form) => {
+          return form.client_id == clientId;
+        });
+
+        const select = document.getElementById("form-filter");
+        select.innerHTML = "<option value selected disabled>Forms</option>";
+        filteredForms.forEach((form) => {
+          const option = document.createElement("option");
+          option.value = form.id;
+          option.innerHTML = form.name;
+          select.appendChild(option);
+        });
+      }
+
+      function openDownloadModal() {
+        const dialog = document.querySelector(".download-leads-modal");
+        dialog.showModal();
+      }
+
+      function downloadLeadsHandler(type) {
+        // downbload leads as csv
+        const selectedLeads = [];
+        const allLeads = [];
+        selectedLeads.push([
+          "Date",
+          "Client Name",
+          "Form Name",
+          "Name",
+          "Phone",
+          "Email",
+          "IP Address",
+          "Status",
+        ]);
+        allLeads.push([
+          "Date",
+          "Client Name",
+          "Form Name",
+          "Name",
+          "Phone",
+          "Email",
+          "IP Address",
+          "Status",
+        ]);
+        const tableBody = document.getElementById("table-body");
+        const inputs = tableBody.querySelectorAll("input[type='checkbox']");
+        inputs.forEach((input) => {
+          if (input.checked) {
+            const row = input.parentElement.parentElement;
+            const lead = {
+              date: row.querySelector(".one").innerHTML,
+              client_name: row.querySelector(".two").innerHTML,
+              form_name: row.querySelector(".three").innerHTML,
+              name: row.querySelector(".four").innerHTML,
+              phone: row.querySelector(".five").innerHTML,
+              email: row.querySelector(".six").innerHTML,
+              ip_address: row.querySelector(".seven").innerHTML,
+              status: row.querySelector(".eight").innerHTML,
+            };
+            selectedLeads.push(lead);
+          }
+        });
+        inputs.forEach((input) => {
+          const row = input.parentElement.parentElement;
+          const lead = {
+            date: row.querySelector(".one").innerHTML,
+            client_name: row.querySelector(".two").innerHTML,
+            form_name: row.querySelector(".three").innerHTML,
+            name: row.querySelector(".four").innerHTML,
+            phone: row.querySelector(".five").innerHTML,
+            email: row.querySelector(".six").innerHTML,
+            ip_address: row.querySelector(".seven").innerHTML,
+            status: row.querySelector(".eight").innerHTML,
+          };
+          allLeads.push(lead);
+        });
+
+        if (type == "all") {
+          downloadLeads(allLeads);
+        } else if (type == "selected") {
+          downloadLeads(selectedLeads);
+        } else if (type == "clear") {
+          const clearLeads = [];
+          clearLeads.push([
+            "Date",
+            "Client Name",
+            "Form Name",
+            "Name",
+            "Phone",
+            "Email",
+            "IP Address",
+            "Status",
+          ]);
+          let filterLeads = allLeads.filter((lead) => lead.status === "CLEAR");
+          clearLeads.push(...filterLeads);
+          downloadLeads(clearLeads);
+        }
+      }
+
+      function downloadLeads(leads) {
+        const csv = convertToCSV(leads);
+        const blob = new Blob([csv], { type: "text/csv" });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.setAttribute("hidden", "");
+        a.setAttribute("href", url);
+        a.setAttribute("download", "leads.csv");
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+
+      function convertToCSV(objArray) {
+        const array =
+          typeof objArray != "object" ? JSON.parse(objArray) : objArray;
+        let str = "";
+        for (let i = 0; i < array.length; i++) {
+          let line = "";
+          for (let index in array[i]) {
+            if (line != "") line += ",";
+            line += array[i][index];
+          }
+          str += line + "\r\n";
+        }
+        return str;
+      }
+
+      async function markStatus(status) {
+        const tableBody = document.getElementById("table-body");
+        const inputs = tableBody.querySelectorAll("input[type='checkbox']");
+        const ids = [];
+
+        inputs.forEach((input) => {
+          if (input.checked) {
+            const row = input.parentElement.parentElement;
+            const idElement = row.querySelector(".lead_id");
+            const id = idElement.textContent || idElement.innerText;
+            ids.push(id);
+          }
+        });
+
+        if (ids.length === 0) {
+          Swal.fire({
+            toast: true,
+            icon: "warning",
+            title: "No leads selected",
+            text: "Please select at least one lead to mark as junk.",
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+          });
+          return;
+        }
+
+        try {
+          const res = await fetch(`/api/leads/status/${status}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ ids: ids }),
+          });
+
+          if (!res.ok) {
+            throw new Error("Network response was not ok");
+          }
+
+          const responseData = await res.json();
+          Swal.fire({
+            toast: true,
+            icon: "success",
+            title:
+              responseData.message || `Leads marked as ${status} successfully`,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+          }).then(() => {
+            window.location.reload(); // Refresh the page after showing the success message
+          });
+        } catch (error) {
+          Swal.fire({
+            toast: true,
+            icon: "error",
+            title: "Error",
+            text: `An error occurred while marking leads as ${status}. Please try again.`,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+          });
+        }
+      }
+
+      async function sendLeadsToDiscord(btn) {
+        const tableBody = document.getElementById("table-body");
+        const inputs = tableBody.querySelectorAll("input[type='checkbox']");
+        const ids = [];
+
+        inputs.forEach((input) => {
+          if (input.checked) {
+            const row = input.parentElement.parentElement;
+            const idElement = row.querySelector(".lead_id");
+            const id = idElement.textContent || idElement.innerText;
+            ids.push(id);
+          }
+        });
+
+        if (ids.length === 0) {
+          Swal.fire({
+            toast: true,
+            icon: "warning",
+            title: "No leads selected",
+            text: `Please select at least one lead to mark as ${status}.`,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+          });
+          return;
+        }
+
+        btn.innerText = "Sending...";
+        btn.disabled = true;
+
+        try {
+          const res = await fetch("/api/leads/sendTodiscord", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ ids: ids }),
+          });
+
+          const responseData = await res.json();
+
+          if (!res.ok) {
+            throw new Error(responseData.error);
+          }
+
+          Swal.fire({
+            toast: true,
+            icon: "success",
+            title: responseData.message || "Leads started sending to Discord",
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+          }).then(() => {
+            window.location.reload(); // Refresh the page after showing the success message
+          });
+        } catch (error) {
+          Swal.fire({
+            toast: true,
+            icon: "error",
+            title: "Error",
+            text: "An error occurred while sending leads to discord. Please Check Discord Webhook in form",
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+          });
+        }
+        btn.innerText = "Send selected leads to Discord";
+        btn.disabled = false;
+      }
+
+      async function syncDNCHandler(btn) {
+        btn.disabled = true;
+        btn.innerHTML = "Syncing...";
+        btn.style.backgroundColor = "gray";
+
+        try {
+          const res = await fetch("/api/status/dnc");
+
+          Swal.fire({
+            toast: true,
+            icon: "success",
+            title: "DNC Status Synced Successfully",
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+          });
+        } catch (error) {
+          Swal.fire({
+            toast: true,
+            icon: "error",
+            title: "Error",
+            text: "An error occurred while syncing DNC status. Please try again.",
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+          });
+        }
+
+        btn.disabled = false;
+        btn.innerHTML = "Sync DNC Status";
+        btn.style.backgroundColor = "#002655";
+      }
+    </script>
+    <script src="/script/customselect.js"></script>
+  </body>
+</html>

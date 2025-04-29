@@ -1,0 +1,50 @@
+/* Change the width of the select box */
+.select2-container--default .select2-selection--single {
+    height: 40px;
+   border: 3px solid #e3e2e2;
+   border-radius: 6px;
+   margin-top: 10px;
+
+}
+
+/* Change the background color and font size */
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    /* background-color: #f8f9fa; */
+    font-size: 15px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    color: #686868;
+}
+
+/* Style the dropdown */
+.select2-container--default .select2-dropdown {
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+}
+
+/* Style the options */
+.select2-container--default .select2-results__option {
+    padding: 8px;
+    font-size: 16px;
+}
+
+/* Style the selected option */
+.select2-container--default .select2-results__option--highlighted {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+/* Adjust the search box inside the dropdown */
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow{
+    height: 26px;
+  position: absolute;
+  top: 16px;
+  right: 1px;
+  width: 20px;
+}

@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="76x76"
+      href="/assets/img/apple-icon.png"
+    />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <title>Jome Journey</title>
+    <!--     Fonts and icons     -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700"
+    />
+    <!-- Nucleo Icons -->
+    <link href="/assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/customselect.css" />
+    <!-- Font Awesome Icons -->
+    <script
+      src="https://kit.fontawesome.com/658a2960da.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Material Icons -->
+
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Round"
+      rel="stylesheet"
+    />
+
+    <!-- CSS Files -->
+    <link
+      id="pagestyle"
+      href="/assets/css/material-dashboard.css?v=3.1.0"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"
+    ></script>
+  </head>
+  <style>
+    table {
+      color: black;
+    }
+  </style>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+    .beforeCollapse {
+      margin-right: 30px;
+    }
+
+    .collapsible-column {
+      white-space: nowrap;
+      position: relative;
+    }
+
+    .collapsible-btn {
+      cursor: pointer;
+      position: absolute;
+      top: -6px;
+      right: 5px;
+    }
+
+    .content {
+      display: table-cell;
+    }
+
+    .hidden {
+      display: none;
+    }
+    .vertical-header {
+      writing-mode: vertical-lr;
+      transform: rotate(270 deg);
+      white-space: nowrap;
+      overflow: visible;
+      margin-top: 20px;
+    }
+
+    .afterCollapsible {
+      width: 10px;
+    }
+    .selected_client {
+      background-color: #56575b;
+      color: white;
+    }
+    .unselected_client {
+      background-color: white;
+      color: black;
+    }
+    .clients_div li {
+      width: 100%;
+      list-style: none;
+      height: 50px;
+      border-radius: 6px;
+      display: flex;
+      justify-content: start;
+      padding-left: 10px;
+      align-items: center;
+      margin-top: 15px;
+      font-weight: 400;
+    }
+    li:hover {
+      cursor: pointer;
+    }
+    .forms_div {
+      border-radius: 6px;
+      height: 60px;
+      background-color: #f1f2f5;
+    }
+    .clients_div {
+      border-radius: 10px;
+      background: #f1f2f5;
+      box-shadow: 0px 4px 3px -1px rgba(0, 0, 0, 0.25);
+    }
+    @media (max-width: 800px) {
+      .wrapper_div {
+        flex-wrap: wrap;
+        width: 100%;
+      }
+      .clients_div {
+        width: 100% !important;
+        margin: auto;
+      }
+    }
+    .table-container {
+      height: 95%;
+      overflow: auto;
+      font-size: 12px;
+    }
+    /* td{
+            padding: 2px !important;
+        } */
+    .center_span {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .select_container {
+      filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <body class="g-sidenav-show bg-gray-200">
+    <!-- include sidebar     -->
+    <%- include('./partials/sidebar') %>
+    <main
+      class="main-content position-relative max-height-vh-100 h-100 border-radius-lg"
+    >
+      <!-- include Navbar -->
+      <%- include('./partials/navbar') %>
+      <link rel="stylesheet" href="/css/loading.css" />
+      <div class="overlay">
+        <div class="loader"></div>
+      </div>
+      <link rel="stylesheet" href="css/leads.css" />
+      <div class="filter-container">
+        <div class="download-container">
+          <input
+            class="download_input"
+            type="text"
+            name="daterange"
+            value="Date"
+          />
+        </div>
+        <div class="event-container">
+          <select name="event" id="event-select" class="event-select">
+            <option value="all">All Events</option>
+          </select>
+        </div>
+      </div>
+      <div class="d-flex wrapper_div" style="height: 80vh">
+        <div
+          class="p-3 ms-2 text-center clients_div height-400 border border-2 overflow-hidden"
+        >
+          <div
+            class="d-flex w-100 border border-0 rounded-2 p-2"
+            style="
+              background-color: white;
+              box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.25);
+            "
+          >
+            <input
+              id="search_client"
+              class="w-100 border border-0 rounded-2 p-2"
+              placeholder="Search Client"
+              type="text"
+            />
+            <span class="center_span"
+              ><i class="fa-solid fa-magnifying-glass fa-xl"></i
+            ></span>
+          </div>
+          <div
+            class="clientsname_div overflow-y-auto h-100"
+            style="padding-bottom: 70px"
+          >
+            <%for(let i = 0; i < agents.length; i++){%> <%if(i == 0){%>
+            <li
+              class="nav-link-text selected_client border-0"
+              mid="<%=agents[i].id%>"
+              value="<%=agents[i].name%>"
+            >
+              <span
+                style="
+                  display: flex;
+                  margin-right: 15px;
+                  border-radius: 50%;
+                  padding: 3px;
+                  background-color: #56575b;
+                "
+                ><i class="fa-solid fa-list" style="color: #ffffff"></i
+              ></span>
+              <%if(agents[i].name.length > 18){%> <%=agents[i].name.substring(0,
+              14) + '...' %> <%}else{%> <%=agents[i].name%> <%}%>
+            </li>
+            <%}else{%>
+            <li
+              class="nav-link-text unselected_client border-0"
+              mid="<%=agents[i].id%>"
+              value="<%=agents[i].name%>"
+            >
+              <span
+                style="
+                  display: flex;
+                  margin-right: 15px;
+                  border-radius: 50%;
+                  padding: 3px;
+                  background-color: #56575b;
+                "
+                ><i class="fa-solid fa-list" style="color: #ffffff"></i
+              ></span>
+              <%if(agents[i].name.length > 18){%> <%=agents[i].name.substring(0,
+              14) + '...' %> <%}else{%> <%=agents[i].name%> <%}%>
+            </li>
+            <%}%> <%}%>
+          </div>
+        </div>
+        <div class="d-flex w-90 overflow-hidden px-3">
+          <div class="w-100 overflow-hidden h-100">
+            <p id="bookings-count" class="mb-0 font-weight-bold text-dark">
+              Bookings Count: 20
+            </p>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>
+                      <input type="checkbox" class="all-checkbox" />
+                    </th>
+                    <th>
+                      <div class="beforeCollapse">No.</div>
+                    </th>
+                    <th>
+                      <div class="beforeCollapse">Id</div>
+                    </th>
+
+                    <th class="collapsible-column">
+                      <div class="beforeCollapse">Date</div>
+                    </th>
+
+                    <th class="collapsible-column">
+                      <div class="beforeCollapse">Name</div>
+                    </th>
+
+                    <th class="collapsible-column">
+                      <div class="beforeCollapse">Email</div>
+                    </th>
+
+                    <th class="collapsible-column">
+                      <div class="beforeCollapse">Time</div>
+                    </th>
+
+                    <th class="collapsible-column">
+                      <div class="beforeCollapse">Event</div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody id="table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script src="script/leadscript.js"></script>
+
+    <!--   Core JS Files   -->
+    <script src="/assets/js/core/popper.min.js"></script>
+    <script src="/assets/js/core/bootstrap.min.js"></script>
+    <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script src="/assets/js/plugins/chartjs.min.js"></script>
+    <!-- Github buttons -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src="/assets/js/material-dashboard.min.js?v=3.1.0"></script>
+    <!-- import leads script -->
+
+    <script>
+      let bookings = [];
+      let events = [];
+      const firstAgentId = document
+        .querySelector(".selected_client")
+        .getAttribute("mid");
+      start();
+      filter();
+
+      async function start() {
+        const client_id = document
+          .querySelector(".selected_client")
+          .getAttribute("mid");
+        const res = await fetch(`/api/bookings/fetch?agentId=${client_id}`);
+        const data = await res.json();
+        bookings = data.bookings;
+        events = data.events;
+        populateEvents(events);
+        populateBookings(bookings);
+      }
+
+      function populateEvents(events) {
+        const eventSelect = document.getElementById("event-select");
+        eventSelect.innerHTML = "<option value='all'>All Events</option>";
+        events.forEach((event) => {
+          const option = document.createElement("option");
+          option.value = event.id;
+          option.textContent = event.name;
+          eventSelect.appendChild(option);
+        });
+      }
+
+      function populateBookings(bookings) {
+        const tbody = document.getElementById("table-body");
+        tbody.innerHTML = "";
+
+        const bookingsCount = document.getElementById("bookings-count");
+        bookingsCount.textContent = `Bookings Count: ${bookings.length}`;
+
+        // Iterate through the bookings array
+        for (let i = 0; i < bookings.length; i++) {
+          const newRow = document.createElement("tr");
+
+          // Create a checkbox cell
+          const cellCheckbox = document.createElement("td");
+          cellCheckbox.innerHTML = `<input type="checkbox"/>`;
+          cellCheckbox.style.width = "10px";
+          newRow.appendChild(cellCheckbox);
+
+          // Create a cell for the index
+          const cellIndex = document.createElement("td");
+          cellIndex.innerHTML = `${i + 1}`;
+          cellIndex.style.width = "10px";
+          newRow.appendChild(cellIndex);
+
+          // Create a cell for the lead ID
+          const cellId = document.createElement("td");
+          cellId.innerHTML = bookings[i].id;
+          cellId.classList.add("booking_id");
+          cellId.style.width = "10px";
+          newRow.appendChild(cellId);
+
+          // Create a cell for the creation date
+          const cellDate = document.createElement("td");
+          const timestamp = bookings[i].date;
+          cellDate.innerHTML = `${timestamp}`;
+          cellDate.style.whiteSpace = "nowrap";
+          cellDate.classList.add("one");
+          newRow.appendChild(cellDate);
+
+          // Create a cell for the name
+          const cellName = document.createElement("td");
+          cellName.innerHTML = `${bookings[i].name}`;
+          cellName.classList.add("four");
+          newRow.appendChild(cellName);
+
+          // Create a cell for the email
+          const cellEmail = document.createElement("td");
+          cellEmail.innerHTML = `${bookings[i].email}`;
+          cellEmail.classList.add("six");
+          newRow.appendChild(cellEmail);
+
+          // Create a cell for the time
+          const cellTime = document.createElement("td");
+          const time24 = bookings[i].time;
+          const [hours, minutes] = time24.split(":");
+          const ampm = hours >= 12 ? "PM" : "AM";
+          const hours12 = hours % 12 || 12;
+          const time12 = `${hours12}:${minutes} ${ampm}`;
+          cellTime.innerHTML = time12;
+          cellTime.classList.add("seven");
+          newRow.appendChild(cellTime);
+
+          // Create a cell for the event
+          const cellEvent = document.createElement("td");
+          cellEvent.innerHTML = bookings[i].event_name;
+          cellEvent.classList.add("eight");
+          newRow.appendChild(cellEvent);
+
+          // Append the new row to the tbody
+          tbody.appendChild(newRow);
+        }
+      }
+
+      clearclientSelected = (curr_elem) => {
+        document.querySelectorAll(".clientsname_div li").forEach((element) => {
+          element.classList.remove("selected_client");
+          element.classList.add("unselected_client");
+        });
+        curr_elem.classList.remove("unselected_client");
+        curr_elem.classList.add("selected_client");
+      };
+
+      function filter() {
+        let startDate = "";
+        let endDate = "";
+
+        $(function () {
+          $('input[name="daterange"]').daterangepicker({
+            autoUpdateInput: false,
+            locale: {
+              cancelLabel: "Clear",
+            },
+          });
+          $('input[name="daterange"]').on(
+            "apply.daterangepicker",
+            function (ev, picker) {
+              $(this).val(
+                picker.startDate.format("MM/DD/YYYY") +
+                  " - " +
+                  picker.endDate.format("MM/DD/YYYY")
+              );
+              startDate = picker.startDate;
+              endDate = picker.endDate;
+              applyFilters(startDate, endDate);
+            }
+          );
+          $('input[name="daterange"]').on(
+            "cancel.daterangepicker",
+            function (ev, picker) {
+              $(this).val("");
+              startDate = "";
+              endDate = "";
+              applyFilters(startDate, endDate);
+            }
+          );
+        });
+      }
+
+      function applyFilters(startDate = "", endDate = "") {
+        let filteredBookings = bookings;
+
+        // Apply date filter
+        if (startDate && endDate) {
+          filteredBookings = filteredBookings.filter((booking) => {
+            const bookingDate = new Date(booking.date);
+            return bookingDate >= startDate && bookingDate <= endDate;
+          });
+        }
+
+        // Apply event filter
+        const selectedEvent = document.getElementById("event-select").value;
+        if (selectedEvent !== "all") {
+          filteredBookings = filteredBookings.filter((booking) => {
+            return booking.event_id == selectedEvent;
+          });
+        }
+
+        populateBookings(filteredBookings);
+      }
+
+      // Add event listener for agent selection
+      document.querySelectorAll(".clientsname_div li").forEach((agent) => {
+        agent.addEventListener("click", async function () {
+          clearclientSelected(this);
+          const agentId = this.getAttribute("mid");
+          const res = await fetch(`/api/bookings/fetch?agentId=${agentId}`);
+          const data = await res.json();
+          bookings = data.bookings;
+          events = data.events;
+          populateEvents(events);
+          applyFilters();
+        });
+      });
+
+      const searchInput = document.getElementById("search_client");
+      searchInput.addEventListener("input", function () {
+        const searchValue = searchInput.value.toLowerCase();
+
+        // Get the list of client names in the <li> elements
+        const clientItems = document.querySelectorAll(".clientsname_div li");
+
+        // Loop through the list items and hide those that don't match the search query
+        clientItems.forEach(function (item) {
+          // If the client name includes the search value, show the item; otherwise, hide it
+          if (item.textContent.toLowerCase().includes(searchValue)) {
+            item.style.display = ""; // or 'block' or 'flex' depending on your layout
+          } else {
+            item.style.display = "none";
+          }
+        });
+      });
+
+      // Add event listener for event selection
+      document
+        .getElementById("event-select")
+        .addEventListener("change", function () {
+          applyFilters();
+        });
+    </script>
+    <script src="/script/customselect.js"></script>
+  </body>
+</html>
