@@ -34,8 +34,6 @@ async function start() {
       ╚═════╝╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═══╝╚═════╝ ╚══════╝ ╚═════╝ 
     `);
     console.log(`##### Express Server Started at port ${port} #####`);
-    // await createSpreadsheet();
-    // await createAdmin();
   });
 }
 start();

@@ -25,14 +25,28 @@ export async function connectToDB() {
   console.log("#####  MYSQL Connection Established Successfully #####");
   await createTables();
   console.log("#####  Tables Created Successfully #####");
+  await createAdmin();
+  console.log("#####  Admin Created Successfully #####");
 }
 
 async function createTables() {
-  const tables = await fs.readdir("./models");
-  for (const table of tables) {
-    const tableData = await fs.readFile(`./models/${table}`, "utf8");
-    await __pool.query(tableData);
-  }
+  const users = await fs.readFile("./models/users.sql", "utf8");
+  const events = await fs.readFile("./models/events.sql", "utf8");
+  const bookings = await fs.readFile("./models/bookings.sql", "utf8");
+  const availability_rules = await fs.readFile(
+    "./models/availability_rules.sql",
+    "utf8"
+  );
+  const [usersResult] = await __pool.query(users);
+  const [eventsResult] = await __pool.query(events);
+  const [bookingsResult] = await __pool.query(bookings);
+  const [availabilityRulesResult] = await __pool.query(availability_rules);
+  console.log(
+    usersResult,
+    eventsResult,
+    bookingsResult,
+    availabilityRulesResult
+  );
 }
 
 export async function createAdmin() {
